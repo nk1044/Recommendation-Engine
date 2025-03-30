@@ -1,12 +1,25 @@
 import { useState } from 'react'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import Layout from './Component/Layout';
+import Home from './Pages/Home';
+import Recommend from './Pages/Recommend';
+import Shuffle from './Pages/Shuffle';
+
+const router = createBrowserRouter([{
+  path: "/",
+  element: <Layout />,
+  children: [
+    {path: "", element: <Home />},
+    {path: "recommend", element: <Recommend />},
+    {path: "shuffle", element: <Shuffle />},
+  ],
+}]);
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <h1>hello</h1>
-    </>
+    <RouterProvider router={router}/>
   )
 }
 
