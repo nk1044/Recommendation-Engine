@@ -1,7 +1,11 @@
 import React from 'react';
 import HomeCard from '../Component/HomeCard';
+import {useNavigate} from 'react-router-dom';
 
 function Home() {
+
+  const navigate = useNavigate();
+
   return (
     <div className='flex flex-col items-center justify-center p-6 px-21'>
       <div className='w-full mt-6 flex justify-center items-center '>
@@ -13,7 +17,8 @@ function Home() {
             Get started with your movie journey.
           </p>
           <div className='flex flex-col justify-start items-start w-full'>
-          <button className='bg-gray-200 rounded-lg px-5 py-2 cursor-pointer mt-4'>Start Exploring</button>
+          <button className='bg-gray-200 rounded-lg px-5 py-2 cursor-pointer mt-4'
+          onClick={()=>navigate('/recommend')}>Start Exploring</button>
           </div>
         </div>
         <div className='w-[45%] h-full flex justify-center items-center px-4'>
