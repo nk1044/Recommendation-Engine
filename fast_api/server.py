@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load the trained model, scaler, and data
 knn_model = joblib.load("knn_model.pkl")
@@ -16,6 +17,14 @@ final_feature_matrix = final_df[feature_columns].values
 final_feature_matrix_scaled = scaler.transform(final_feature_matrix)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_recommendations(movie_name, k=10):
     """Fetch top K movie recommendations."""
