@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { GetMovieTitle } from "../../titles.js";
 import { RecommendKNN } from "../Server/server.js";
+import allMovies from '../../data.json';
 
 const Recommend = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const allMovies = GetMovieTitle();
 
-  // Debounced search effect
   useEffect(() => {
     if (!searchQuery.trim()) {
       setSuggestions([]);
@@ -17,24 +15,27 @@ const Recommend = () => {
     }
 
     const delayDebounceFn = setTimeout(() => {
-      const filteredMovies = allMovies.filter((title) =>
-        title.toLowerCase().includes(searchQuery.toLowerCase())
+      const filteredMovies = allMovies.filter((data) =>
+        data?.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setSuggestions(filteredMovies);
     }, 1000);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchQuery, allMovies]);
+  }, [searchQuery]);
 
-  // Select a movie and fetch recommendations
-  const handleSelectMovie = async (movie) => {
+  const handleSelectMovie = (movie) => {
     setSelectedMovie(movie);
     setSuggestions([]);
-    setSearchQuery(movie);
+    setSearchQuery(movie.title);
+    setMovies([]);
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedMovie) return;
 
     try {
-      const response = await RecommendKNN(movie);
-      // const data = await response.json();
+      const response = await RecommendKNN(selectedMovie.imdb_id);
       setMovies(response);
     } catch (error) {
       console.error("Error fetching recommendations:", error);
@@ -43,7 +44,6 @@ const Recommend = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      {/* Search Bar */}
       <div className="relative w-2/3 mx-auto">
         <input
           type="text"
@@ -60,23 +60,29 @@ const Recommend = () => {
                 className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
                 onClick={() => handleSelectMovie(movie)}
               >
-                {movie}
+                {movie.title}
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      {/* Selected Movie */}
       {selectedMovie && (
         <div className="mt-4 text-center">
           <span className="text-lg font-semibold text-blue-600">
-            Selected Movie: {selectedMovie}
+            Selected Movie: {selectedMovie.title}
           </span>
+          <div className="mt-2">
+            <button
+              onClick={handleSubmit}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Recommend
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Recommended Movies */}
       <div className="grid grid-cols-3 gap-6 mt-6 mx-auto max-w-5xl">
         {movies.length > 0 ? (
           movies.map((movie, index) => (
@@ -96,7 +102,6 @@ const Recommend = () => {
         )}
       </div>
 
-      {/* Footer */}
       <footer className="mt-8 text-center text-sm text-gray-600">
         <p>MovieRecommend</p>
         <p>Discover top movie picks tailored for you!</p>
