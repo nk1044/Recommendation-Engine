@@ -4,7 +4,6 @@ function HomeCard({
     title = '5 Must-Watch Films',
     genres = "Action, Romance, Comedy",
     imageSrc = '/home.png',
-    onClick = () => {},
 }) {
   return (
     <div className='w-52 bg-white overflow-hidden p-3'>
