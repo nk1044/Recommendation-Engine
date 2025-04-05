@@ -2,6 +2,10 @@ import React from 'react';
 import HomeCard from '../Component/HomeCard';
 import {useNavigate} from 'react-router-dom';
 
+const defaultMovies = [
+
+]
+
 function Home() {
 
   const navigate = useNavigate();
@@ -36,11 +40,11 @@ function Home() {
 
       <div>
         <div className='grid grid-rows-1 grid-cols-5 gap-6 mt-6'>
-          <HomeCard />
-          <HomeCard />
-          <HomeCard />
-          <HomeCard />
-          <HomeCard />
+          <HomeCard title='Captain America: The First Avenger' imageSrc='https://m.media-amazon.com/images/M/MV5BNzUyM2YyY2MtNzNlMS00MWU5LTgxNjAtNzZlNmI2NjU2NDZlXkEyXkFqcGc@._V1_SX300.jpg' genres='Action, Adventure, Sci-Fi' />
+          <HomeCard title='Open Season' genres='Animation, Adventure, Comedy' imageSrc="https://m.media-amazon.com/images/M/MV5BMTQwOTg2MjU0OV5BMl5BanBnXkFtZTcwMzIzNTQzMQ@@._V1_SX300.jpg" />
+          <HomeCard title='Avengers: Infinity War' genres='Action, Adventure, Sci-Fi' imageSrc="https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"/>
+          <HomeCard title='Whiplash' genres='Drama, Music' imageSrc="https://m.media-amazon.com/images/M/MV5BMDFjOWFkYzktYzhhMC00NmYyLTkwY2EtYjViMDhmNzg0OGFkXkEyXkFqcGc@._V1_SX300.jpg" />
+          <HomeCard title='Ghost Rider: Spirit of Vengeance' genres='Action, Fantasy, Thriller' imageSrc="https://m.media-amazon.com/images/M/MV5BN2FmZGVlNTgtYTllNC00YmUzLTk5YmUtNWNhMzk3ZmE2NmQ0XkEyXkFqcGc@._V1_SX300.jpg"/>
         </div>
       </div>
 

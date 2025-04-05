@@ -11,7 +11,6 @@ const router = createBrowserRouter([{
   children: [
     {path: "", element: <Home />},
     {path: "recommend", element: <Recommend />},
-    {path: "shuffle", element: <Shuffle />},
   ],
 }]);
 
