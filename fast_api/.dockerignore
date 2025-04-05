@@ -1,0 +1,15 @@
+.venv
+__pycache__
+movies_data.csv
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite
+*.egg-info
+*.egg
+*.log
+*.DS_Store
+*.env
+*.env.*
+*.local

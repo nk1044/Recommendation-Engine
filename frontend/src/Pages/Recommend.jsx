@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { GetMovieTitle } from "../../public/titles.js";
+import { GetMovieTitle } from "../../titles.js";
+import { RecommendKNN } from "../Server/server.js";
 
 const Recommend = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,13 +33,9 @@ const Recommend = () => {
     setSearchQuery(movie);
 
     try {
-      const response = await fetch("/api/recommendations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ movie }),
-      });
-      const data = await response.json();
-      setMovies(data.recommendations);
+      const response = await RecommendKNN(movie);
+      // const data = await response.json();
+      setMovies(response);
     } catch (error) {
       console.error("Error fetching recommendations:", error);
     }
