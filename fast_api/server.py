@@ -17,7 +17,7 @@ final_feature_matrix_scaled = scaler.transform(final_feature_matrix)
 
 app = FastAPI()
 
-def get_recommendations(movie_name, k=5):
+def get_recommendations(movie_name, k=10):
     """Fetch top K movie recommendations."""
     if movie_name not in final_df['title'].values:
         return {"error": f"'{movie_name}' not found in the dataset."}
