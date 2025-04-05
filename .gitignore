@@ -116,7 +116,6 @@ dmypy.json
 *.h5
 *.ckpt
 *.joblib
-*.pkl
 *.model
 
 # Temporary files
