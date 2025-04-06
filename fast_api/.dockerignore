@@ -1,6 +1,5 @@
 .venv
 __pycache__
-movies_data.csv
 *.pyc
 *.pyo
 *.pyd

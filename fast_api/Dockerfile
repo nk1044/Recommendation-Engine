@@ -1,34 +1,25 @@
-FROM python:3.11-slim
+FROM python:3.10-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    DEBIAN_FRONTEND=noninteractive \
-    PIP_NO_CACHE_DIR=1 \
-    POETRY_VERSION=1.8.2
-
-# Set working directory
 WORKDIR /app
 
-# Pre-install only what's necessary
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    libffi-dev \
-    libpq-dev \
-    build-essential \
-    curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Install PostgreSQL client for pg_isready
+RUN apt-get update && apt-get clean
 
-# Copy and install dependencies
 COPY requirements.txt .
-RUN python -m pip install --upgrade pip
-RUN pip install -r requirements.txt
 
-# Copy the entire app
-COPY . .
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+COPY server.py /app/server.py
+COPY knn_model.pkl /app/knn_model.pkl
+COPY scaler.pkl /app/scaler.pkl
+COPY script.sh /app/script.sh
+COPY movies_data.csv /app/movies_data.csv
+
+RUN chmod +x /app/script.sh
 
 EXPOSE 8000
 
-# Run the server
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
+
+CMD ["/app/script.sh"]
