@@ -51,8 +51,18 @@ const RecommendKNN = async (movie) => {
     }
 };
 
+const HealthCheck = async () => {
+    try {
+        const response = await axios.get(`${backendUrl}/`);
+        return response.data;
+    } catch (error) {
+        console.error("Error in HealthCheck:", error);
+        return null;
+    }
+};
 export {
     RecommendKNN,
     GetMoviesData,
-    GetMovieDetails
+    GetMovieDetails,
+    HealthCheck
 };
