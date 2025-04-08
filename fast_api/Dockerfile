@@ -1,25 +1,16 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install PostgreSQL client for pg_isready
-RUN apt-get update && apt-get clean
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-
-COPY server.py /app/server.py
-COPY knn_model.pkl /app/knn_model.pkl
-COPY scaler.pkl /app/scaler.pkl
-COPY script.sh /app/script.sh
-COPY movies_data.csv /app/movies_data.csv
-
-RUN chmod +x /app/script.sh
+COPY . .
 
 EXPOSE 8000
 
-
-CMD ["/app/script.sh"]
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
