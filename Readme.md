@@ -132,5 +132,3 @@ Recommends movies that are textually or semantically similar to user's liked mov
 - Features include: Title, Genres, Cast, Overview, Keywords, Ratings, Popularity, etc.
 
 ---
-
-## 📂 Suggested Directory Structure
