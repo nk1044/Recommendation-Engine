@@ -1,74 +1,119 @@
 # 🎬 Movie Recommendation Engine
 
 ## 📌 Overview
-This project is a **Movie Recommendation Engine** that suggests movies based on various machine learning algorithms. The system utilizes:
-- **K-Nearest Neighbors (KNN)**
-- **Clustering (K-Means, Hierarchical, etc.)**
-- **Perceptron**
-- **Bayesian Methods**
-- **Content-Based Filtering**
+This project is a **Movie Recommendation Engine** that suggests movies using multiple machine learning and statistical models. The system covers:
+- Feature extraction from movie metadata
+- Six powerful ML algorithms for recommendations
+- Personalized predictions based on user preferences and similarity scoring
 
-The goal is to provide **personalized movie recommendations** based on user preferences, movie attributes, and past interactions.
-
-website:- [link](https://recommendation-engine-eight.vercel.app/)
+Explore the web interface:  
+🌐 [Live Website](https://recommendation-engine-eight.vercel.app/)
 
 ---
 
-## 🚀 Features
-✔ **Machine Learning-Based Recommendations**  
-✔ **Genre & Content Similarity Matching**  
-✔ **Scalability for Large Datasets**  
-✔ **Customizable Model Selection**  
+## 🧹 1️⃣ Preprocessing
+
+The dataset is preprocessed to extract **800-dimensional feature vectors** per movie. These features are constructed using:
+- **TF-IDF Vectorization** on genres, keywords, overview, and cast
+- **Dimensionality Reduction** (e.g., PCA or TruncatedSVD)
+- **Normalization** of numerical values like rating, popularity
+
+**TF-IDF Formula:**
+\[
+\text{TF-IDF}(t, d) = \text{TF}(t, d) \times \log\left(\frac{N}{\text{DF}(t)}\right)
+\]
+
+Each movie becomes:
+\[
+\text{Movie Vector} \in \mathbb{R}^{800}
+\]
 
 ---
 
-## 🏗️ Algorithms Used
+## 🧠 2️⃣ Algorithms Used
 
-### 1️⃣ **K-Nearest Neighbors (KNN)**
-- Finds similar users/movies based on feature proximity.
-- Provides quick recommendations using distance metrics (Euclidean, Cosine, etc.).
+### 🟦 A. K-Nearest Neighbors (KNN)
 
-### 2️⃣ **Clustering (K-Means, Hierarchical, etc.)**
-- Groups similar movies together.
-- Useful for segmenting users with similar tastes.
+- Compares movies based on Euclidean or Cosine distance.
+- Predicts preference using weighted vote from nearest neighbors.
 
-### 3️⃣ **Perceptron (Neural Network Approach)**
-- Simple neural network model to classify user preferences.
-- Can be extended to deep learning models.
+**Cosine Similarity:**
+\[
+\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{||\vec{A}|| \times ||\vec{B}||}
+\]
 
-### 4️⃣ **Bayesian Methods**
-- Uses probabilistic models to predict user preferences.
-- Implements **Naïve Bayes Classifier** for recommendation.
-
-### 5️⃣ **Content-Based Filtering**
-- Uses movie metadata (genre, director, actors) to recommend similar movies.
-- Employs **TF-IDF** and **Cosine Similarity**.
-
-
-## 🔧 Installation & Usage
-
-### 1️⃣ Clone the Repository
-```sh
-git clone https://github.com/Levi477/Recommendation-Engine.git
-cd Recommendation-Engine
-```
-
-### 2️⃣ Install Dependencies
-```sh
-pip install -r requirements.txt
-```
-
-### 3️⃣ Run the Recommendation Engine
-```sh
-python main.py
-```
+**Euclidean Distance:**
+\[
+d(\vec{A}, \vec{B}) = \sqrt{\sum_{i=1}^{n}(A_i - B_i)^2}
+\]
 
 ---
 
-## 📊 Dataset
-- TMDB Dataset (or any suitable dataset)
-- Contains movie IDs, genres, ratings, and user interactions.
+### 🟨 B. Clustering (K-Means, Hierarchical)
+
+- Groups movies with similar features using centroid-based or tree-based clustering.
+- Recommendations are drawn from the same cluster as user-liked movies.
+
+**K-Means Objective:**
+\[
+\min \sum_{i=1}^{k} \sum_{x \in C_i} \|\mathbf{x} - \mu_i\|^2
+\]
+
+**Hierarchical Distance Linkages:**  
+- Single Link: min distance  
+- Complete Link: max distance  
+- Average Link: mean distance
 
 ---
-## 📄 License
-MIT License © 2025 Levi477
+
+### 🟥 C. Perceptron (Neural Network)
+
+- Binary classification of liked vs disliked movies using a shallow feed-forward neural network.
+- Uses **Sigmoid activation** in the output layer.
+
+**Perceptron Activation:**
+\[
+y = \sigma(\mathbf{w} \cdot \mathbf{x} + b)
+\]
+
+**Sigmoid Function:**
+\[
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\]
+
+---
+
+### 🟩 D. Bayesian Methods (Naïve Bayes)
+
+- Probabilistic classifier assuming independence among features.
+- Predicts preference by computing maximum a posteriori probability.
+
+**Bayes Theorem:**
+\[
+P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}
+\]
+
+---
+
+### 🟫 E. Content-Based Filtering
+
+- Computes similarity based on metadata like genre, director, actors.
+- Uses **Cosine Similarity** between movie vectors for ranking.
+
+Same formula as KNN's cosine similarity.
+
+---
+
+### 🟧 F. Matrix Factorization (Optional Extension)
+
+*(Can be added if implemented)*  
+- Decomposes user-movie interaction matrix into latent factors.
+
+**SVD Factorization:**
+\[
+R \approx U \Sigma V^T
+\]
+
+---
+
+## 🗂️ Project Structure (Suggested)
