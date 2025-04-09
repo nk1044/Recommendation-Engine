@@ -17,10 +17,10 @@ with open(MODEL_PATH, 'rb') as f:
 # Load dataset
 final_df = pd.read_csv(DATASET_PATH)
 
-# Define input schema
+
 class RecommendationRequest(BaseModel):
     movie_name: str
-    k: int = 5
+    k: int = 10
     model: Optional[str] = "knn"
 
 
@@ -55,6 +55,19 @@ def recommend_movies(request: RecommendationRequest):
             recommendations, _ = evaluate_recommendations(
                 request.movie_name, final_df, model_data, k=request.k
             )
+        elif request.model == "gmm":
+            from guassian.gmm_model_utils import recommend_movies
+            recommendations = recommend_movies(request.movie_name)
+        elif request.model == "svm":
+            from svm import recommend_svm_optimized
+            recommendations = recommend_svm_optimized(request.movie_name)
+        elif request.model == "cbf":
+            from cbf.movie_recommender_utils import recommend_movies
+            recommendations = recommend_movies(request.movie_name)
+        # elif request.model == "bay":
+        #     from cbf.model_define import recommend_movies, df, feature_matrix
+        #     recommendations = recommend_movies(request.movie_name, df, feature_matrix)
+        #     recommendations =recommendations.tolist()
         else:
             raise HTTPException(status_code=400, detail=f"Model '{request.model}' not supported.")
         
@@ -68,6 +81,9 @@ def recommend_movies(request: RecommendationRequest):
 
 @app.post("/recommend-ann")
 def recommend_ann(request: AnnRecommendationRequest):
+    if not request.user_history and not request.negative_history:
+        final_df = pd.read_csv(DATASET_PATH)
+        return final_df['title'].sample(10).tolist()
     from ann import ann
     recommendations = ann(request.user_history, request.negative_history)
     return recommendations
