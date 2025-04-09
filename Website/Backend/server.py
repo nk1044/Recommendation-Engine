@@ -23,10 +23,6 @@ class RecommendationRequest(BaseModel):
     k: int = 5
     model: Optional[str] = "knn"
 
-# Define output schema
-class RecommendationResponse(BaseModel):
-    title: str
-    imdb_id: Optional[str] = None
 
 class AnnRecommendationRequest(BaseModel):
     user_history: List[str]
@@ -51,7 +47,7 @@ def home():
 
 
 # --- POST endpoint ---
-@app.post("/recommend", response_model=List[RecommendationResponse])
+@app.post("/recommend")
 def recommend_movies(request: RecommendationRequest):
     try:
         if request.model == "knn":
