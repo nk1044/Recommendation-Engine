@@ -24,7 +24,7 @@ const GetMovieDetails = async (movie) => {
 };
 
 const GetMoviesData = async (movies) => {
-    console.log("Fetching movie data for:", movies);
+    // console.log("Fetching movie data for:", movies);
     try {
         const result = await Promise.all(
             movies.map(async (movie) => {
@@ -47,8 +47,8 @@ const RecommendANN = async ({title, user_history, negative_history}) => {
         "user_history": user_history,
         "negative_history": negative_history
       });
-    //   const result = await GetMoviesData(response.data || []);
-      console.log("Recommendations:", response.data);
+      const result = await GetMoviesData(response.data || []);
+      // console.log("Recommendations:", response.data);
       return result;
     } catch (error) {
       console.error("Error in RecommendKNN:", error);

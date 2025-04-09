@@ -27,8 +27,17 @@ const Recommend = () => {
     "ann",
     "gmm",
     "contend Based filtering",
-    "bay"
+    "Bayesian"
   ];
+
+  const mapping = {
+    "knn": "knn",
+    "clustering": "clustering",
+    "ann": "ann",
+    "gmm": "gmm",
+    "contend Based filtering": "cbf",
+    "Bayesian": "bay"
+  }
 
   // Fixed list of genres
   const genres = [
@@ -167,7 +176,7 @@ const Recommend = () => {
       } else {
         res = await RecommendKNN({
           title: matched.title,
-          model: selectedModel
+          model: mapping[selectedModel]
         });
       }
       
@@ -213,7 +222,7 @@ const Recommend = () => {
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
-                  {model === "contend Based filtering" ? "Content Based" : model.toUpperCase()}
+                  {model.charAt(0).toUpperCase() + model.slice(1)}
                 </button>
               ))}
             </div>

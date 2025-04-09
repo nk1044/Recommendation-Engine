@@ -10,7 +10,7 @@ function Home() {
     const checkHealth = async () => {
       try {
         const response = await HealthCheck();
-        console.log('Server is healthy:', response);
+        // console.log('Server is healthy:', response);
       } catch (error) {
         console.error('Error checking server health:', error);
       }
