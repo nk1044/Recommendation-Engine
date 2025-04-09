@@ -22,8 +22,8 @@ I have used **Full TMDB Movies Dataset 2024** (https://www.kaggle.com/datasets/a
 
 ### Recommendation using Pickle file
 - First create a pickle file by running .ipynb file which is just outside naive_bayes_pickle folder.
-- model.py file already contains required imports and functions to use pickle model.
-- predict.py file shows how to use model.py and pickle file to get recommeded movies.
+- model_define.py file already contains required imports and functions to use pickle model.
+- predict_movies.py file shows how to use model.py and pickle file to get recommeded movies.
 
 ---
 
