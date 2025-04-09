@@ -19,6 +19,10 @@ function Navbar() {
                 onClick={() => navigate('/recommend')}
                 className='cursor-pointer hover:text-neutral-600 transition duration-200 ease-in-out'
                 >Recommend</li>
+                <li
+                onClick={() => navigate('/ann')}
+                className='cursor-pointer hover:text-neutral-600 transition duration-200 ease-in-out'
+                >ANN</li>
                 
             </ul>
         </div>

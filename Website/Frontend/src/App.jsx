@@ -3,7 +3,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Layout from './Component/Layout';
 import Home from './Pages/Home';
 import Recommend from './Pages/Recommend';
-import Shuffle from './Pages/Shuffle';
+import History from './Pages/History';
 
 const router = createBrowserRouter([{
   path: "/",
@@ -11,6 +11,7 @@ const router = createBrowserRouter([{
   children: [
     {path: "", element: <Home />},
     {path: "recommend", element: <Recommend />},
+    {path: "ann", element: <History />},
   ],
 }]);
 
