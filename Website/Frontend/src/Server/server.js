@@ -8,7 +8,7 @@ const movieapikey = import.meta.env.VITE_MOVIE_API_KEY;
 const GetMovieDetails = async (movie) => {
     // console.log("Fetching details for:", movie);
     const movieId = allmovies.find(
-        (m) => m.title.trim().toLocaleLowerCase() === movie?.title.trim().toLocaleLowerCase()
+        (m) => m.title.trim().toLocaleLowerCase() === movie?.trim().toLocaleLowerCase()
     )?.imdb_id;
     if (!movieId) {
         console.warn(`IMDb ID not found for: ${movie}`);
@@ -44,10 +44,10 @@ const RecommendANN = async ({title, user_history, negative_history}) => {
     try {
       const response = await axios.post(`${backendUrl}/recommend-ann`, {
         "movie_name": title,
-        "user_history": [],
-        "negative_history": []
+        "user_history": user_history,
+        "negative_history": negative_history
       });
-      const result = await GetMoviesData(response.data || []);
+    //   const result = await GetMoviesData(response.data || []);
       console.log("Recommendations:", response.data);
       return result;
     } catch (error) {
@@ -71,7 +71,7 @@ const RecommendKNN = async ({title, model="knn"}) => {
         "model": model
       });
       const result = await GetMoviesData(response.data || []);
-      console.log("Recommendations:", response.data);
+    //   console.log("Recommendations:", response.data);
       return result;
     } catch (error) {
       console.error("Error in RecommendKNN:", error);
