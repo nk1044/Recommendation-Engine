@@ -43,7 +43,7 @@ class MultinomialNaiveBayes:
             log_probs.append(class_log_prob)
         return log_probs
 
-def recommend_movies(favorite_movie, df, X, expected_language:None, genre_filter:None, top_n = 10):
+def recommend_movies(favorite_movie, df, X, top_n = 10):
 
     if(isinstance(X, pd.DataFrame)):
         X = X.to_numpy()
@@ -64,31 +64,6 @@ def recommend_movies(favorite_movie, df, X, expected_language:None, genre_filter
     df['probability'] = probs
     
     recommended_movies = df[df.index != index].sort_values(by="probability", ascending=False)
-
-    ######## Filtering start#########
-
-    if expected_language:
-        recommended_movies = recommended_movies[recommended_movies['original_language'] == expected_language]
-
-    if genre_filter:
-        recommended_movies['matching_genres'] = recommended_movies['genres'].apply(
-            lambda genres: sum(1 for genre in genre_filter if genre in genres)
-        )
-        
-        recommended_movies = recommended_movies[recommended_movies['matching_genres'] > 0]
-        # print(recommended_movies[["genres", "title", "matching_genres"]])
-        
-        n_genre = len(genre_filter)
-        rec = pd.DataFrame([],columns=recommended_movies.columns)
-
-        for i in range(n_genre):
-            rec = pd.concat([rec,recommended_movies[recommended_movies["matching_genres"]==n_genre-i]])
-        # print(rec[["matching_genres", "title", "genres"]])
-
-        return rec['title'].head(top_n).to_numpy()
-    
-    ######## Filtering End ######################
-
     
     return recommended_movies["title"].head(top_n).to_numpy()
 

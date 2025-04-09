@@ -1,40 +1,34 @@
-#this app is just for testing purposes
-import streamlit as st # type: ignore
-# ⬅️ THIS MUST BE FIRST!
-st.set_page_config(page_title=" GMM Movie Recommender", layout="centered")
+# test_app.py
+import streamlit as st  # type: ignore
+import pandas as pd  # type: ignore
+from gmm_model_utils import load_movies_data, recommend_movies
 
-import pandas as pd # type: ignore
+# THIS MUST BE FIRST!
+st.set_page_config(page_title="GMM Movie Recommender", layout="centered")
 
-#  Load clustered movie data
+# Load movies data from pickle rather than CSV.
 @st.cache_data
 def load_data():
-    return pd.read_csv("movies_with_clusters.csv")
+    return load_movies_data("movies_with_clusters.pkl")
 
 df = load_data()
 
-# 🎯 Title
-st.title(" GMM-based Movie Recommender")
+# Title and Description
+st.title("GMM-based Movie Recommender")
 st.write("Find movies similar to your favorite, using Gaussian Mixture Models!")
 
-# 🎞️ Movie dropdown
+# Movie dropdown
 movie_titles = sorted(df["title"].dropna().unique())
 selected_movie = st.selectbox("Choose a movie you like:", movie_titles)
 
-#  Recommendation logic
-def recommend_movies(movie_title, df, top_n=10):
-    cluster_id = df[df["title"] == movie_title]["GMM_Cluster"].values[0]
-    similar_movies = df[df["GMM_Cluster"] == cluster_id]
-    similar_movies = similar_movies[similar_movies["title"] != movie_title]
-    return similar_movies[["title"]].head(top_n)
-
-#  Show recommendations
+# Recommendation logic
 if selected_movie:
-    st.subheader(f"🎥 Because you liked *{selected_movie}*")
+    st.subheader(f"Because you liked *{selected_movie}*")
     st.markdown("You might also enjoy:")
     
-    recommendations = recommend_movies(selected_movie, df, top_n=10)
-    st.table(recommendations)
+    recs = recommend_movies(selected_movie, df, top_n=10)
+    st.table(recs)
 
-# 📦 Footer
+# Footer
 st.markdown("---")
-st.markdown("made with GMM")
+st.markdown("Made with GMM")

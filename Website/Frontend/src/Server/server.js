@@ -41,9 +41,12 @@ const GetMoviesData = async (movies) => {
 
 const RecommendKNN = async (movie) => {
     try {
-        const response = await axios.get(`${backendUrl}/recommend/${movie}`);
-        const result = await GetMoviesData(response.data?.recommendations || []);
-        console.log("Recommendations:", result);
+        const response = await axios.post(`${backendUrl}/recommend`,{
+            "movie_name":"Interstellar",
+            "model":"knn"
+        });
+        const result = await GetMoviesData(response.data || []);
+        console.log("Recommendations:", response.data);
         return result;
     } catch (error) {
         console.error("Error in RecommendKNN:", error);
@@ -51,8 +54,18 @@ const RecommendKNN = async (movie) => {
     }
 };
 
+const HealthCheck = async () => {
+    try {
+        const response = await axios.get(`${backendUrl}/`);
+        return response.data;
+    } catch (error) {
+        console.error("Error in HealthCheck:", error);
+        return null;
+    }
+};
 export {
     RecommendKNN,
     GetMoviesData,
-    GetMovieDetails
+    GetMovieDetails,
+    HealthCheck
 };

@@ -1,14 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import HomeCard from '../Component/HomeCard';
 import {useNavigate} from 'react-router-dom';
+import {HealthCheck} from '../Server/server.js';
 
-const defaultMovies = [
-
-]
 
 function Home() {
 
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        const response = await HealthCheck();
+        console.log('Server is healthy:', response);
+      } catch (error) {
+        console.error('Error checking server health:', error);
+      }
+    };
+    checkHealth();
+  }
+  , []);
 
   return (
     <div className='flex flex-col items-center justify-center p-6 px-21'>
