@@ -64,6 +64,9 @@ def recommend_movies(request: RecommendationRequest):
         elif request.model == "cbf":
             from cbf.movie_recommender_utils import recommend_movies
             recommendations = recommend_movies(request.movie_name)
+        elif request.model == "clustering":
+            from clustering.recommend_movies import recommend_movies
+            recommendations = recommend_movies(request.movie_name)
         # elif request.model == "bay":
         #     from cbf.model_define import recommend_movies, df, feature_matrix
         #     recommendations = recommend_movies(request.movie_name, df, feature_matrix)
