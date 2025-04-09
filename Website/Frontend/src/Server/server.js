@@ -47,7 +47,7 @@ const RecommendANN = async ({title, user_history, negative_history}) => {
         "user_history": user_history,
         "negative_history": negative_history
       });
-    //   const result = await GetMoviesData(response.data || []);
+      const result = await GetMoviesData(response.data || []);
       console.log("Recommendations:", response.data);
       return result;
     } catch (error) {
