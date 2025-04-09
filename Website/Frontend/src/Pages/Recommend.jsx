@@ -168,9 +168,9 @@ const Recommend = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-gray-50">
+    <div className="p-6 min-h-screen bg-[#fee7f0]">
       <div className="max-w-4xl mx-auto mb-10">
-        <h1 className="text-4xl font-bold text-blue-700 text-center mb-2">
+        <h1 className="text-4xl font-futura font-extrabold text-[#c56443] text-center mb-2">
           Movie Recommender
         </h1>
         <p className="text-center text-gray-600 mb-6">
@@ -190,7 +190,7 @@ const Recommend = () => {
                   onClick={() => handleModelSelect(model)}
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     selectedModel === model
-                      ? "bg-green-600 text-white"
+                      ? "bg-[#c56443] text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
@@ -212,7 +212,7 @@ const Recommend = () => {
                   onClick={() => handleGenreToggle(genre)}
                   className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     selectedGenres.includes(genre)
-                      ? "bg-blue-600 text-white"
+                      ? "bg-[#f77d81] text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
@@ -226,8 +226,8 @@ const Recommend = () => {
               disabled={!searchQuery.trim() || loading}
               className={`w-full px-6 py-3 rounded-xl text-white font-medium transition-colors duration-150 ${
                 !searchQuery.trim() || loading
-                  ? "bg-blue-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
+                  ? "bg-[#e78484] cursor-not-allowed"
+                  : "bg-[#f79a9a] hover:bg-[#e48e8e]"
               }`}
             >
               {loading ? (
