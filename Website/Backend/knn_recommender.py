@@ -74,7 +74,7 @@ def get_recommendations(movie_name, final_df, model_data, k=None):
 def get_recommended_titles(recommendations):
     return [rec['title'] for rec in recommendations]
 
-def evaluate_recommendations(movie_name, final_df, model_data, k=5):
+def evaluate_recommendations(movie_name, final_df, model_data, k=10):
     """Evaluate recommendations by comparing genre overlap"""
     recommendations = get_recommendations(movie_name, final_df, model_data, k)
     
@@ -116,14 +116,14 @@ def evaluate_recommendations(movie_name, final_df, model_data, k=5):
     avg_overlap = np.mean([r['genre_overlap'] for r in recommendations])
     
     # Print evaluation results
-    print(f"\n🎬 Recommendations for '{movie_name}':")
-    print(f"Query movie genres: {', '.join(query_genres)}")
-    print(f"Average genre overlap: {avg_overlap:.2f} (0-1 scale, higher is better)")
+    # print(f"\n🎬 Recommendations for '{movie_name}':")
+    # print(f"Query movie genres: {', '.join(query_genres)}")
+    # print(f"Average genre overlap: {avg_overlap:.2f} (0-1 scale, higher is better)")
     
     # Print recommendations with metrics
     for i, rec in enumerate(recommendations, 1):
         genres_str = ', '.join(rec['genres'])
-        print(f"{i}. {rec['title']} (IMDb: {rec['imdb_id']}) - Similarity: {rec['similarity']:.2f}, Genre overlap: {rec['genre_overlap']:.2f}")
-        print(f"   Genres: {genres_str}")
+        # print(f"{i}. {rec['title']} (IMDb: {rec['imdb_id']}) - Similarity: {rec['similarity']:.2f}, Genre overlap: {rec['genre_overlap']:.2f}")
+        # print(f"   Genres: {genres_str}")
     
     return get_recommended_titles(recommendations), avg_overlap
