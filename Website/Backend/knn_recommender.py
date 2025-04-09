@@ -71,6 +71,9 @@ def get_recommendations(movie_name, final_df, model_data, k=None):
     
     return recommended_movies
 
+def get_recommended_titles(recommendations):
+    return [rec['title'] for rec in recommendations]
+
 def evaluate_recommendations(movie_name, final_df, model_data, k=5):
     """Evaluate recommendations by comparing genre overlap"""
     recommendations = get_recommendations(movie_name, final_df, model_data, k)
@@ -123,4 +126,4 @@ def evaluate_recommendations(movie_name, final_df, model_data, k=5):
         print(f"{i}. {rec['title']} (IMDb: {rec['imdb_id']}) - Similarity: {rec['similarity']:.2f}, Genre overlap: {rec['genre_overlap']:.2f}")
         print(f"   Genres: {genres_str}")
     
-    return recommendations, avg_overlap
+    return get_recommended_titles(recommendations), avg_overlap
