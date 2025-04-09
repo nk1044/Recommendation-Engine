@@ -29,7 +29,7 @@ class RecommendationResponse(BaseModel):
 # Create FastAPI app
 app = FastAPI(title="Movie Recommendation API")
 
-from knn_recommender import  evaluate_recommendations
+
 
 @app.get("/")
 def home():
@@ -42,6 +42,7 @@ def home():
 def recommend_movies(request: RecommendationRequest):
     try:
         if request.model == "knn":
+            from knn_recommender import  evaluate_recommendations
             recommendations, _ = evaluate_recommendations(
                 request.movie_name, final_df, model_data, k=request.k
             )
