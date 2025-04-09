@@ -195,10 +195,6 @@ const Recommend = () => {
         <p className="text-center text-gray-600 mb-6">
           Discover movies based on your favorite titles
         </p>
-        <button
-        onClick={()=>console.log(UserHistory, NegativeHistory)}
-        >print
-        </button>
 
         <div className="bg-white p-6 rounded-2xl shadow-lg">
           {/* Model selection section */}
