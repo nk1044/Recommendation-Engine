@@ -16,15 +16,9 @@ const Recommend = () => {
   const suggestionRef = useRef(null);
   
   // Initialize states from localStorage if available
-  const [UserHistory, setUserHistory] = useState(() => {
-    const savedHistory = localStorage.getItem('userHistory');
-    return savedHistory ? JSON.parse(savedHistory) : [];
-  });
+  const [UserHistory, setUserHistory] = useState([]);
   
-  const [NegativeHistory, setNegativeHistory] = useState(() => {
-    const savedNegativeHistory = localStorage.getItem('negativeHistory');
-    return savedNegativeHistory ? JSON.parse(savedNegativeHistory) : [];
-  });
+  const [NegativeHistory, setNegativeHistory] = useState([]);
 
   // List of available recommendation models
   const models = [
@@ -49,15 +43,22 @@ const Recommend = () => {
     "horror"
   ];
 
-  // Save UserHistory to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('userHistory', JSON.stringify(UserHistory));
-  }, [UserHistory]);
+    if(UserHistory.length === 0) {
+      const storedUserHistory = localStorage.getItem('userHistory');
+      if (storedUserHistory) {
+        setUserHistory(JSON.parse(storedUserHistory));
+      }
+    }
+    if(NegativeHistory.length === 0) {
+      const storedNegativeHistory = localStorage.getItem('negativeHistory');
+      if (storedNegativeHistory) {
+        setNegativeHistory(JSON.parse(storedNegativeHistory));
+      }
+    }
 
-  // Save NegativeHistory to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('negativeHistory', JSON.stringify(NegativeHistory));
-  }, [NegativeHistory]);
+  }, []);
+
 
   // Filter recommendations based on selected genres
   const filterByGenres = (movies, genreList) => {
@@ -71,9 +72,22 @@ const Recommend = () => {
     });
   };
 
-  const HandleHistory = async (movie) => {
-    setUserHistory((prev) => [...prev, movie]);
-    setNegativeHistory((prev) => prev.filter((m) => m !== movie));
+
+
+  const HandleHistory = (movie) => {
+    console.log("Movie clicked:", movie);
+    // console.log("User History before:", UserHistory);
+    // console.log("Negative History before:", NegativeHistory);
+    
+    // Directly update states
+    setUserHistory(prev => [...prev, movie]);
+    setNegativeHistory(prev => prev.filter(m => m !== movie));
+    localStorage.setItem('userHistory', JSON.stringify([...UserHistory, movie]));
+    localStorage.setItem('negativeHistory', JSON.stringify(NegativeHistory.filter(m => m !== movie)));
+    
+    // console.log("User History after update requested:", UserHistory);
+    // console.log("Negative History after update requested:", NegativeHistory);
+    // Note: the console logs here will still show old values due to React's state update batching
   };
 
   // Update filtered recommendations whenever recommendations or selected genres change
@@ -147,8 +161,8 @@ const Recommend = () => {
       if(selectedModel === "ann") {
         res= await RecommendANN({
           title: matched.title,
-          user_history: UserHistory,
-          negative_history: NegativeHistory
+          user_history: JSON.parse(localStorage.getItem('userHistory')),
+          negative_history: JSON.parse(localStorage.getItem('negativeHistory'))
         });
       } else {
         res = await RecommendKNN({
@@ -156,8 +170,13 @@ const Recommend = () => {
           model: selectedModel
         });
       }
+      
+      // Extract movie titles and store them in NegativeHistory
+      const movieTitles = res.map(movie => movie.Title);
+      setNegativeHistory(movieTitles);
+      localStorage.setItem('negativeHistory', JSON.stringify(movieTitles));
+      
       setRecommendations(res);
-      setNegativeHistory(res.filter((m) => m.title));
       // Filtered results will be updated by the useEffect
     } catch (err) {
       console.error(err);
@@ -176,6 +195,10 @@ const Recommend = () => {
         <p className="text-center text-gray-600 mb-6">
           Discover movies based on your favorite titles
         </p>
+        <button
+        onClick={()=>console.log(UserHistory, NegativeHistory)}
+        >print
+        </button>
 
         <div className="bg-white p-6 rounded-2xl shadow-lg">
           {/* Model selection section */}
@@ -295,7 +318,6 @@ const Recommend = () => {
                     className="px-4 py-3 hover:bg-blue-50 cursor-pointer"
                     role="option"
                     aria-selected={selectedMovie?.title === movie.title}
-                    onClick={() => HandleHistory(movie.title)}
                   >
                     {movie.title}
                   </li>
@@ -354,7 +376,8 @@ const Recommend = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-white rounded-xl shadow hover:shadow-xl transition transform hover:scale-105 border border-gray-100"
-                  >
+                    onClick={() => HandleHistory(movie.Title)}
+                 >
                     <div className="relative">
                       <img
                         src={movie.Poster !== "N/A" ? movie.Poster : "/placeholder.jpg"}
