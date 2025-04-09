@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { RecommendKNN } from "../Server/server.js";
+import { RecommendKNN, RecommendANN } from "../Server/server.js";
 import allMovies from "../../data.json";
 
 const Recommend = () => {
@@ -14,6 +14,17 @@ const Recommend = () => {
   const [selectedModel, setSelectedModel] = useState("knn");
   const blurTimeout = useRef(null);
   const suggestionRef = useRef(null);
+  
+  // Initialize states from localStorage if available
+  const [UserHistory, setUserHistory] = useState(() => {
+    const savedHistory = localStorage.getItem('userHistory');
+    return savedHistory ? JSON.parse(savedHistory) : [];
+  });
+  
+  const [NegativeHistory, setNegativeHistory] = useState(() => {
+    const savedNegativeHistory = localStorage.getItem('negativeHistory');
+    return savedNegativeHistory ? JSON.parse(savedNegativeHistory) : [];
+  });
 
   // List of available recommendation models
   const models = [
@@ -38,6 +49,16 @@ const Recommend = () => {
     "horror"
   ];
 
+  // Save UserHistory to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('userHistory', JSON.stringify(UserHistory));
+  }, [UserHistory]);
+
+  // Save NegativeHistory to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('negativeHistory', JSON.stringify(NegativeHistory));
+  }, [NegativeHistory]);
+
   // Filter recommendations based on selected genres
   const filterByGenres = (movies, genreList) => {
     if (!genreList.length) return movies;
@@ -48,6 +69,11 @@ const Recommend = () => {
       const movieGenres = movie.Genre.toLowerCase();
       return genreList.some(genre => movieGenres.includes(genre.toLowerCase()));
     });
+  };
+
+  const HandleHistory = async (movie) => {
+    setUserHistory((prev) => [...prev, movie]);
+    setNegativeHistory((prev) => prev.filter((m) => m !== movie));
   };
 
   // Update filtered recommendations whenever recommendations or selected genres change
@@ -117,12 +143,21 @@ const Recommend = () => {
     setLoading(true);
 
     try {
-      const res = await RecommendKNN({
-        title: matched.title,
-        model: selectedModel
-      });
-      
+      let res;
+      if(selectedModel === "ann") {
+        res= await RecommendANN({
+          title: matched.title,
+          user_history: UserHistory,
+          negative_history: NegativeHistory
+        });
+      } else {
+        res = await RecommendKNN({
+          title: matched.title,
+          model: selectedModel
+        });
+      }
       setRecommendations(res);
+      setNegativeHistory(res.filter((m) => m.title));
       // Filtered results will be updated by the useEffect
     } catch (err) {
       console.error(err);
@@ -260,6 +295,7 @@ const Recommend = () => {
                     className="px-4 py-3 hover:bg-blue-50 cursor-pointer"
                     role="option"
                     aria-selected={selectedMovie?.title === movie.title}
+                    onClick={() => HandleHistory(movie.title)}
                   >
                     {movie.title}
                   </li>
