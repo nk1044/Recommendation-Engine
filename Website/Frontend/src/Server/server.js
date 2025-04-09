@@ -8,7 +8,7 @@ const movieapikey = import.meta.env.VITE_MOVIE_API_KEY;
 const GetMovieDetails = async (movie) => {
     // console.log("Fetching details for:", movie);
     const movieId = allmovies.find(
-        (m) => m.title.trim().toLocaleLowerCase() === movie.trim().toLocaleLowerCase()
+        (m) => m.title.trim().toLocaleLowerCase() === movie?.title.trim().toLocaleLowerCase()
     )?.imdb_id;
     if (!movieId) {
         console.warn(`IMDb ID not found for: ${movie}`);
