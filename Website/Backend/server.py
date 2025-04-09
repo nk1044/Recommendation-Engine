@@ -3,6 +3,8 @@ from pydantic import BaseModel
 import pandas as pd
 import pickle
 from typing import List,Optional
+from fastapi.middleware.cors import CORSMiddleware
+
 
 # Load model and dataset once
 MODEL_PATH = 'movie_recommender_model.pkl'
@@ -26,9 +28,20 @@ class RecommendationResponse(BaseModel):
     title: str
     imdb_id: Optional[str] = None
 
+class AnnRecommendationRequest(BaseModel):
+    user_history: List[str]
+    negative_history: List[str]
+
 # Create FastAPI app
 app = FastAPI(title="Movie Recommendation API")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
 
 
 @app.get("/")
@@ -56,3 +69,9 @@ def recommend_movies(request: RecommendationRequest):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/recommend-ann")
+def recommend_ann(request: AnnRecommendationRequest):
+    from ann import ann
+    recommendations = ann(request.user_history, request.negative_history)
+    return recommendations
