@@ -13,6 +13,18 @@ This repository provides a movie recommender system that uses a Gaussian Mixture
         ├── svd.pkl                         # TruncatedSVD
         └── clustered_movies.pkl            # DataFrame with clustered movies
 -> only need to know gmm_models_utlis.py , you can use example code snippet 
-from gmm_model_utils import load_all_models, recommend_movies
+import sys
+sys.path.append('../ml_models/gaussian_mixture_model')
 
-gmm, scaler, svd, df = load_all_models(), do not remove any pkl files
+from gmm_model_utils import load_all_models, recommend_movies  # or whatever function you wannt 
+
+#accesing any pkl files
+import pickle
+
+with open('../ml_models/gaussian_mixture_model/gmm_model.pkl', 'rb') as f:
+    gmm = pickle.load(f)
+
+
+
+
+
