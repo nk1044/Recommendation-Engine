@@ -11,8 +11,19 @@ const Recommend = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedModel, setSelectedModel] = useState("knn");
   const blurTimeout = useRef(null);
   const suggestionRef = useRef(null);
+
+  // List of available recommendation models
+  const models = [
+    "knn",
+    "clustering",
+    "ann",
+    "gmm",
+    "contend Based filtering",
+    "bay"
+  ];
 
   // Fixed list of genres
   const genres = [
@@ -80,6 +91,15 @@ const Recommend = () => {
     });
   };
 
+  const handleModelSelect = (model) => {
+    setSelectedModel(model);
+    // Clear previous recommendations when changing models
+    if (selectedMovie) {
+      setRecommendations([]);
+      setFilteredRecommendations([]);
+    }
+  };
+
   const handleSubmit = async () => {
     const matched = allMovies.find(
       (m) => m.title.toLowerCase() === searchQuery.trim().toLowerCase()
@@ -97,7 +117,11 @@ const Recommend = () => {
     setLoading(true);
 
     try {
-      const res = await RecommendKNN(matched.title);
+      const res = await RecommendKNN({
+        title: matched.title,
+        model: selectedModel
+      });
+      
       setRecommendations(res);
       // Filtered results will be updated by the useEffect
     } catch (err) {
@@ -119,8 +143,33 @@ const Recommend = () => {
         </p>
 
         <div className="bg-white p-6 rounded-2xl shadow-lg">
-          {/* Genre selection and Get Recommendations button row */}
+          {/* Model selection section */}
           <div className="mb-6">
+            <h3 className="text-lg font-medium text-gray-700 mb-2">
+              Select Recommendation Algorithm
+            </h3>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {models.map((model) => (
+                <button
+                  key={model}
+                  onClick={() => handleModelSelect(model)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    selectedModel === model
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {model === "contend Based filtering" ? "Content Based" : model.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Genre selection section */}
+          <div className="mb-6">
+            <h3 className="text-lg font-medium text-gray-700 mb-2">
+              Filter by Genres (Optional)
+            </h3>
             <div className="flex flex-wrap gap-2 mb-4">
               {genres.map((genre) => (
                 <button
@@ -227,12 +276,17 @@ const Recommend = () => {
 
           {selectedMovie && !errorMsg && (
             <div className="mt-4 p-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg text-sm">
-              Selected: <strong>{selectedMovie.title}</strong>
-              {selectedGenres.length > 0 && (
-                <span className="ml-2">
-                  | Genre Filters: <strong>{selectedGenres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ")}</strong>
+              <div className="flex flex-wrap gap-2 items-center">
+                <span><strong>Selected Movie:</strong> {selectedMovie.title}</span>
+                <span className="border-l border-blue-300 pl-2">
+                  <strong>Model:</strong> {selectedModel === "contend Based filtering" ? "Content Based" : selectedModel.toUpperCase()}
                 </span>
-              )}
+                {selectedGenres.length > 0 && (
+                  <span className="border-l border-blue-300 pl-2">
+                    <strong>Genres:</strong> {selectedGenres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ")}
+                  </span>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -243,7 +297,7 @@ const Recommend = () => {
         {loading && (
           <div className="flex justify-center py-16">
             <div className="animate-pulse text-blue-600 font-semibold text-lg">
-              Finding movies for you...
+              Finding movies for you using {selectedModel === "contend Based filtering" ? "Content Based" : selectedModel.toUpperCase()} algorithm...
             </div>
           </div>
         )}
@@ -251,7 +305,7 @@ const Recommend = () => {
         {!loading && recommendations.length > 0 && (
           <div className="mb-10">
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-              Recommended Movies
+              Recommended Movies via {selectedModel === "contend Based filtering" ? "Content Based" : selectedModel.toUpperCase()}
               {selectedGenres.length > 0 && ` - ${selectedGenres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ")}`}
             </h2>
             
@@ -329,7 +383,7 @@ const Recommend = () => {
                 d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 12a9 9 0 100-18 9 9 0 000 18z"
               />
             </svg>
-            <p>No recommendations available.</p>
+            <p>No recommendations available with the current settings.</p>
           </div>
         )}
       </div>

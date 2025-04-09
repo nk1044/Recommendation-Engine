@@ -38,21 +38,20 @@ const GetMoviesData = async (movies) => {
         return [];
     }
 };
-
-const RecommendKNN = async (movie) => {
+const RecommendKNN = async ({title, model="knn"}) => {
     try {
-        const response = await axios.post(`${backendUrl}/recommend`,{
-            "movie_name":"Interstellar",
-            "model":"knn"
-        });
-        const result = await GetMoviesData(response.data || []);
-        console.log("Recommendations:", response.data);
-        return result;
+      const response = await axios.post(`${backendUrl}/recommend`, {
+        "movie_name": title,
+        "model": model
+      });
+      const result = await GetMoviesData(response.data || []);
+      console.log("Recommendations:", response.data);
+      return result;
     } catch (error) {
-        console.error("Error in RecommendKNN:", error);
-        return [];
+      console.error("Error in RecommendKNN:", error);
+      return [];
     }
-};
+  };
 
 const HealthCheck = async () => {
     try {
