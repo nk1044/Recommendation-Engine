@@ -2,13 +2,12 @@
 
 from model_define import recommend_movies, df, feature_matrix
 
+# Random Movie name from the dataset
 favorite_movie = "Inception"
-expected_language = "en"
-genre_filter = ["action", "science fiction"]
 
 # Predicting recommendations
 recommendations = recommend_movies(
-    favorite_movie, df, feature_matrix, expected_language, genre_filter
+    favorite_movie, df, feature_matrix
 )
 
 print("Recommended movies:\n", recommendations)

@@ -7,7 +7,7 @@ This project is a **Movie Recommendation Engine** that provides personalized sug
 
 ---
 
-## 🧭 Workflow
+##  Workflow
 
 ---
 
