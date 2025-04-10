@@ -22,9 +22,9 @@ Functions Overview :
 
 | Function Name             | Role                                                                 |
 |---------------------------|----------------------------------------------------------------------|
- pca_svd(X, n_components)   Reduces the number of dimensions in `X` using SVD to `n_components
- recommend_svm_optimized(...)   Trains a linear SVM from scratch to identify similar movies 
- main block               Accepts user input, runs PCA, trains SVM, and outputs top results   
+ pca_svd(X, n_components)   |  Reduces the number of dimensions in `X` using SVD to `n_components
+ recommend_svm_optimized(...) |  Trains a linear SVM from scratch to identify similar movies 
+ main block         |       Accepts user input, runs PCA, trains SVM, and outputs top results   
 
 ---
 
