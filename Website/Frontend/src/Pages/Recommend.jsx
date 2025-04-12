@@ -35,6 +35,7 @@ const Recommend = () => {
     "clustering": "clustering",
     "ann": "ann",
     "gmm": "gmm",
+    "svm": "svm",
     "contend Based filtering": "cbf",
     "Bayesian": "bay"
   }
