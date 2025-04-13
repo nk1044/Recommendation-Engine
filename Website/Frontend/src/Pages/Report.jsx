@@ -1,5 +1,6 @@
 import React from 'react';
 import { Github, ExternalLink, BookOpen, Database, Film } from 'lucide-react';
+import ImageSlider from '../Component/ImageSlider';
 
 function Report() {
   const links = [
@@ -55,9 +56,16 @@ function Report() {
     },
   ];
 
+  const slider = [
+    {name: "Home Page", imgsrc: "/home_page.png"},
+    {name: "Recommendation Page", imgsrc: "/recommend_page.png"},
+    {name: "History Page", imgsrc: "/ann_page.png"},
+    {name: "Results", imgsrc: "/result_page.png"},
+  ]
+
   return (
     <div className="bg-gray-100 pt-2 px-2 font-serif">
-      <div className=" mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className=" mx-auto bg-white shadow-lg rounded-lg px-6 overflow-hidden">
         {/* Header/Cover */}
         <div className="p-10">
           <h1 className="text-4xl font-bold mb-3">Movie Recommendation Engine</h1>
@@ -84,7 +92,8 @@ function Report() {
           {/* Authors */}
           <section>
             <h2 className="text-2xl font-bold mb-5 text-gray-800 pb-2 border-b border-gray-200">Authors</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className='w-full flex justify-center items-center'>
+            <div className="grid max-w-[70%] grid-cols-1 md:grid-cols-3 gap-7 p-3 ">
               {authors.map((author, index) => (
                 <div key={index} className="flex flex-col rounded-lg items-center text-center">
                   <div className="w-24 h-24 rounded-lg bg-gray-200 mb-3 overflow-hidden">
@@ -102,6 +111,7 @@ function Report() {
                   </div>
                 </div>
               ))}
+            </div>
             </div>
           </section>
 
@@ -122,6 +132,7 @@ function Report() {
               View Live Demo →
             </a>
           </section>
+
 
           {/* Workflow */}
           <section>
@@ -172,6 +183,11 @@ function Report() {
               </div>
             </div>
           </section>
+
+          <div className='w-full flex justify-center items-center'>
+          <ImageSlider data={slider} />
+
+          </div>
 
           {/* Models Summary */}
           <section>
