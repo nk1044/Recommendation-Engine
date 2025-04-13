@@ -38,14 +38,14 @@ function Report() {
       role: "B23CS1074",
       imgsrc: "https://img.icons8.com/?size=100&id=AZazdsitsrgg&format=png&color=000000",
       github: "https://github.com/bhavyacs1074",
-      linkedin: "https://linkedin.com/in/alexjohnson",
+      linkedin: "https://linkedin.com/in/",
     },
     {
       name: "Patil Sanskar Dhirendra",
       role: "B23CS1050",
       imgsrc: "/sanskar_profile_image.png",
       github: "https://github.com/sanskarppatil",
-      linkedin: "https://linkedin.com/in/alexjohnson",
+      linkedin: "https://www.linkedin.com/in/sanskar-patil-a5466628a/",
     },
     {
       name: "Pawar Yuvraj Pramod",
