@@ -1,3 +1,4 @@
+
 # 🎬 Movie Recommendation System
 
 **GitHub Repository**: [Recommendation-Engine](https://github.com/Levi477/Recommendation-Engine)
@@ -179,25 +180,44 @@ Recommendations are sorted by similarity score.
 ![genre importance matrix](https://i.postimg.cc/3NrybLY4/Screenshot-2025-04-13-at-3-01-03-PM.png)
 ---
 
-## 🧮 4. Clustering (K-Means)![flowchart](https://i.postimg.cc/0jHK5s9s/clustering.png)
+## 4. Clustering (K-Means)
 
-**Purpose**: Group similar movies together based on content or ratings features and recommend from the same cluster.
+![flowchart](https://i.postimg.cc/0jHK5s9s/clustering.png)
 
-### 📐 Mathematical Foundation
+###  Purpose
 
-K-Means minimizes intra-cluster variance:
+Group similar movies together based on features. This enables the system to recommend movies from the same cluster, assuming that users might enjoy other items within a group of similar ones.
 
-$$
-\underset{C}{\arg\min} \sum_{i=1}^{K} \sum_{x \in C_i} \|x - \mu_i\|^2
-$$
+### Mathematical Foundation
 
-Where:
-- $C_i$ is the set of points in cluster $i$
-- $\mu_i$ is the centroid of cluster $i$
+K-Means aims to partition `n` data points into `k` clusters in which each data point belongs to the cluster with the nearest mean (centroid), minimizing intra-cluster variance.
 
+
+### Working :-
+
+1. **Choose the number of clusters (k)**
+2. **Randomly initialize k centroids**
+3. **Assign each point to the nearest cluster centroid**
+4. **Recalculate cluster centroids as the mean of assigned points**
+5. **Repeat steps 3-4 until convergence (or until reach max epoch)**
+
+### Use in Recommendation
+
+After clustering movies:
+- For a given user’s liked movie, find the cluster it belongs to
+- Recommend other movies from the same cluster
+
+This helps in:
+- Discovering niche patterns in data
+- Making content-based or collaborative recommendations more effective
+- 
+![distribution of data](https://i.postimg.cc/vByRPZDV/Screenshot-2025-04-10-at-11-23-55-PM.png)
+
+
+![distribution in reduced dimension-2d](https://i.postimg.cc/fLfG1Q0g/Screenshot-2025-04-10-at-11-15-26-PM.png)
 ---
 
-## ⚖️ 5. Support Vector Machine (SVM)
+## 5. Support Vector Machine (SVM)
 ![flowchart](https://i.postimg.cc/xT9hmNL8/svm.png)
 
 **Purpose**: Classify user-preferred genres or features to recommend movies falling within the same classification boundaries.
