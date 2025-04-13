@@ -44,8 +44,8 @@ const RecommendANN = async ({title, user_history, negative_history}) => {
     try {
       const response = await axios.post(`${backendUrl}/recommend-ann`, {
         "movie_name": title,
-        "user_history": user_history,
-        "negative_history": negative_history
+        "user_history": user_history || [],
+        "negative_history": negative_history || []
       });
       const result = await GetMoviesData(response.data || []);
       // console.log("Recommendations:", response.data);
