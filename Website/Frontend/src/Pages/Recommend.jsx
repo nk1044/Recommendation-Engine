@@ -24,7 +24,6 @@ const Recommend = () => {
   const models = [
     "knn",
     "clustering",
-    "ann",
     "gmm",
     "contend Based filtering",
     "Bayesian"
@@ -167,27 +166,21 @@ const Recommend = () => {
     setLoading(true);
 
     try {
-      let res;
-      if(selectedModel === "ann") {
-        res= await RecommendANN({
-          title: matched.title,
-          user_history: JSON.parse(localStorage.getItem('userHistory')),
-          negative_history: JSON.parse(localStorage.getItem('negativeHistory'))
-        });
-      } else {
-        res = await RecommendKNN({
+      const res = await RecommendKNN({
           title: matched.title,
           model: mapping[selectedModel]
         });
-      }
-      
+
       // Extract movie titles and store them in NegativeHistory
       const movieTitles = res.map(movie => movie.Title);
-      setNegativeHistory(movieTitles);
-      localStorage.setItem('negativeHistory', JSON.stringify(movieTitles));
+      setNegativeHistory(prev => [...prev, ...movieTitles]); 
+      if(movieTitles.length > 0) localStorage.setItem('negativeHistory', JSON.stringify(movieTitles));
       
       setRecommendations(res);
       // Filtered results will be updated by the useEffect
+      console.log("User History:", UserHistory);
+      console.log("Negative History:", NegativeHistory);
+      
     } catch (err) {
       console.error(err);
       setErrorMsg("Failed to fetch recommendations.");

@@ -1,20 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { RecommendKNN, RecommendANN } from "../Server/server.js";
+import { RecommendANN } from "../Server/server.js";
 import allMovies from "../../data.json";
 
 const History = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [filteredRecommendations, setFilteredRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [selectedGenres, setSelectedGenres] = useState([]);
-  // Added missing selectedModel state
-  const [selectedModel, setSelectedModel] = useState("ANN");
-  const blurTimeout = useRef(null);
-  const suggestionRef = useRef(null);
+  
   
   // Initialize states from localStorage
   const [UserHistory, setUserHistory] = useState(() => {
@@ -74,31 +68,7 @@ const History = () => {
     setFilteredRecommendations(filterByGenres(recommendations, selectedGenres));
   }, [recommendations, selectedGenres]);
 
-  useEffect(() => {
-    if (!searchQuery.trim()) {
-      setSuggestions([]);
-      return;
-    }
 
-    const delayDebounce = setTimeout(() => {
-      let filtered = allMovies.filter((movie) =>
-        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-
-      setSuggestions(filtered.slice(0, 10)); // limit suggestions
-    }, 300);
-
-    return () => clearTimeout(delayDebounce);
-  }, [searchQuery]);
-
-  const handleSelect = (movie) => {
-    setSelectedMovie(movie);
-    setSearchQuery(movie.title);
-    setSuggestions([]);
-    setRecommendations([]);
-    setFilteredRecommendations([]);
-    setErrorMsg("");
-  };
 
   const handleGenreToggle = (genre) => {
     setSelectedGenres(prevGenres => {
@@ -110,20 +80,15 @@ const History = () => {
     });
   };
 
-  const handleModelSelect = (model) => {
-    setSelectedModel(model);
-    // Clear previous recommendations when changing models
-    if (selectedMovie) {
-      setRecommendations([]);
-      setFilteredRecommendations([]);
-    }
-  };
 
   const handleSubmit = async () => {
     setErrorMsg("");
     setLoading(true);
 
     try {
+      console.log("User History:", UserHistory);
+      console.log("Negative History:", NegativeHistory);
+      
       const res = await RecommendANN({
         user_history: UserHistory, // Use state directly instead of accessing localStorage
         negative_history: NegativeHistory
@@ -131,10 +96,10 @@ const History = () => {
       
       // Extract movie titles and update NegativeHistory
       const movieTitles = res.map(movie => movie.Title);
-      setNegativeHistory(movieTitles);
-      localStorage.setItem('negativeHistory', JSON.stringify(movieTitles));
+      setNegativeHistory(prev => [...prev, ...movieTitles]);  
       
       setRecommendations(res);
+      if(movieTitles.length > 0) localStorage.setItem('negativeHistory', JSON.stringify(movieTitles));
       // Filtered results will be updated by the useEffect
     } catch (err) {
       console.error(err);
@@ -216,21 +181,6 @@ const History = () => {
             </div>
           )}
 
-          {selectedMovie && !errorMsg && (
-            <div className="mt-4 p-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg text-sm">
-              <div className="flex flex-wrap gap-2 items-center">
-                <span><strong>Selected Movie:</strong> {selectedMovie.title}</span>
-                <span className="border-l border-blue-300 pl-2">
-                  <strong>Model:</strong> {selectedModel === "content Based filtering" ? "Content Based" : selectedModel.toUpperCase()}
-                </span>
-                {selectedGenres.length > 0 && (
-                  <span className="border-l border-blue-300 pl-2">
-                    <strong>Genres:</strong> {selectedGenres.map(g => g.charAt(0).toUpperCase() + g.slice(1)).join(", ")}
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
@@ -307,7 +257,7 @@ const History = () => {
           </div>
         )}
 
-        {!loading && recommendations.length === 0 && selectedMovie && (
+        {!loading && recommendations.length === 0 && (
           <div className="text-center py-16 text-gray-400">
             <svg
               className="w-16 h-16 mx-auto mb-4"
