@@ -11,12 +11,14 @@ class MoviePreferenceDataset:
         self.labels = []
 
         for title in positive_titles:
-            self.features.append(movie_to_features[title])
-            self.labels.append(1.0)
+            if title in movie_to_features:
+                self.features.append(movie_to_features[title])
+                self.labels.append(1.0)
 
         for title in negative_titles:
-            self.features.append(movie_to_features[title])
-            self.labels.append(0.0)
+            if title in movie_to_features:
+                self.features.append(movie_to_features[title])        
+                self.labels.append(0.0)
 
         self.features = np.stack(self.features)
         self.labels = np.array(self.labels).reshape(-1, 1)
