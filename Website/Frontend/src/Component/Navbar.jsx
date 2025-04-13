@@ -24,9 +24,9 @@ function Navbar() {
                 className='cursor-pointer hover:text-neutral-600 transition duration-200 ease-in-out'
                 >ANN</li>
                 <li
-                onClick={() => navigate('/project-report')}
+                onClick={() => navigate('/project-page')}
                 className='cursor-pointer hover:text-neutral-600 transition duration-200 ease-in-out'
-                >Report</li>
+                >Project Page</li>
                 
             </ul>
         </div>
