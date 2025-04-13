@@ -1,4 +1,4 @@
-﻿# 🎬 Movie Recommendation System
+# 🎬 Movie Recommendation System
 
 **GitHub Repository**: [Recommendation-Engine](https://github.com/Levi477/Recommendation-Engine)
 
@@ -112,7 +112,7 @@ These vectors are then used as input for all recommendation algorithms.
 
 
 ## 🧠 1. K-Nearest Neighbors (KNN)
-
+![enter image description here](https://i.postimg.cc/hts3m6wN/Whats-App-Image-2025-04-13-at-14-45-29.jpg)
 **Purpose**: Recommend movies that are similar to a selected movie using proximity in feature space.
 
 ### 📐 Mathematical Foundation
@@ -160,7 +160,7 @@ Where:
 ---
 
 ## 📚 3. Content-Based Filtering
-![flowchart](https://i.postimg.cc/BQX1YXCQ/content-based-filtering.png)
+![flowchart](https://i.postimg.cc/cLdTmTGY/Screenshot-2025-04-13-at-2-48-31-PM.png)
 **Purpose**: Recommend movies similar to the selected movie based on descriptive features (genre, tags, cast, etc.).
 
 ### 📐 Mathematical Foundation
@@ -173,6 +173,10 @@ $$
 
 Recommendations are sorted by similarity score.
 
+### Analysis 
+![similarity distribution](https://i.postimg.cc/Y9zGRcKB/Screenshot-2025-04-13-at-3-00-37-PM.png)
+
+![genre importance matrix](https://i.postimg.cc/3NrybLY4/Screenshot-2025-04-13-at-3-01-03-PM.png)
 ---
 
 ## 🧮 4. Clustering (K-Means)![flowchart](https://i.postimg.cc/0jHK5s9s/clustering.png)
@@ -264,7 +268,7 @@ Where:
 ---
 
 ## 📊 7. Bayesian Recommendation Method
-![flowchart](https://i.postimg.cc/8CDcS5Lv/bayes.png)
+![flowchart](https://i.postimg.cc/265Hbp6D/Screenshot-2025-04-13-at-2-51-03-PM.png)
 **Purpose**: Probabilistically recommend movies based on prior user behavior and item features.
 
 ### 📐 Mathematical Foundation
@@ -292,6 +296,14 @@ P(M | U) \propto P(M) \prod_{i=1}^{n} P(F_i | M)
 $$
 
 Where $F_i$ are user’s observed features (genre preferences, past ratings, etc.)
+
+### Analysis
+
+![confidence grid](https://i.postimg.cc/25tK2JYy/Screenshot-2025-04-13-at-2-56-35-PM.png)
+
+![probability scores](https://i.postimg.cc/9MqNSpXp/Screenshot-2025-04-13-at-2-57-02-PM.png)
+
+![Genre Importance Matrix](https://i.postimg.cc/C5GrMxqn/Screenshot-2025-04-13-at-2-57-15-PM.png)
 
 ---
 
@@ -321,9 +333,9 @@ We utilized the following for preprocessing and feature engineering:
 | GMM                 | Unsupervised | No               | Probabilistic    | Soft clustering                       | Sensitive to parameters             |
 | Content-Based       | Unsupervised | No               | Metadata-based   | No cold-start issue for users         | Limited diversity                   |
 | K-Means Clustering  | Unsupervised | No               | Hard clustering  | Fast and scalable                     | Assumes spherical clusters          |
-| SVM                 | Supervised   | Yes              | Classification   | Works with high-dimensional data      | Needs labeled data                  |
+| SVM                 | Supervised   | No              | Classification   | Works with high-dimensional data      | Needs labeled data                  |
 | ANN                 | Supervised   | Yes              | Deep learning    | Captures nonlinear relationships      | Needs large dataset                 |
-| Bayesian            | Probabilistic| Yes              | Probabilistic    | Works well with sparse data           | Assumes independence of features    |
+| Bayesian            | Probabilistic| No              | Probabilistic    | Works well with sparse data           | Assumes independence of features    |
 
 ---
 
