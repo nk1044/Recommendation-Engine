@@ -44,6 +44,7 @@ function Home() {
           <img
             className='w-[90%] sm:w-[75%] h-auto object-cover'
             src='/home.png'
+            // src=''
             alt='Movie Banner'
           />
         </div>
