@@ -26,13 +26,13 @@ const Recommend = () => {
     "clustering",
     "gmm",
     "contend Based filtering",
-    "Bayesian"
+    "Bayesian",
+    "svm",
   ];
 
   const mapping = {
     "knn": "knn",
     "clustering": "clustering",
-    "ann": "ann",
     "gmm": "gmm",
     "svm": "svm",
     "contend Based filtering": "cbf",
