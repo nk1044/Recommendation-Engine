@@ -153,7 +153,6 @@ function Report() {
                 <h3 className="font-bold text-lg text-gray-800 mb-2">2. K-Nearest Neighbors (KNN)</h3>
                 <p className="mb-2">Recommends movies based on vector distances using:</p>
                 <ul className="list-disc ml-5 text-gray-700">
-                  <li>Cosine Similarity</li>
                   <li>Euclidean Distance</li>
                 </ul>
               </div>
@@ -210,7 +209,7 @@ function Report() {
                   <tr className="border-t border-gray-200 hover:bg-gray-50">
                     <td className="p-3">KNN</td>
                     <td className="p-3">Similarity-based</td>
-                    <td className="p-3 font-mono text-xs">Cosine / Euclidean distance</td>
+                    <td className="p-3 font-mono text-xs"> Euclidean distance</td>
                   </tr>
                   <tr className="border-t border-gray-200 hover:bg-gray-50">
                     <td className="p-3">K-Means Clustering</td>
@@ -230,7 +229,7 @@ function Report() {
                   <tr className="border-t border-gray-200 hover:bg-gray-50">
                     <td className="p-3">Content-Based</td>
                     <td className="p-3">Metadata Matching</td>
-                    <td className="p-3 font-mono text-xs">Cosine similarity</td>
+                    <td className="p-3 font-mono text-xs"><img className='h-14' src="/cbf.jpeg" alt="" /></td>
                   </tr>
                 </tbody>
               </table>
