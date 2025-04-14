@@ -38,7 +38,7 @@ function Report() {
       role: "B23CS1074",
       imgsrc: "https://img.icons8.com/?size=100&id=AZazdsitsrgg&format=png&color=000000",
       github: "https://github.com/bhavyacs1074",
-      linkedin: "https://linkedin.com/in/",
+      linkedin: "https://github.com/bhavyacs1074/",
     },
     {
       name: "Patil Sanskar Dhirendra",
