@@ -57,10 +57,10 @@ function Report() {
   ];
 
   const slider = [
-    {name: "Home Page", imgsrc: "/home_page.png"},
-    {name: "Recommendation Page", imgsrc: "/recommend_page.png"},
-    {name: "History Page", imgsrc: "/ann_page.png"},
-    {name: "Results", imgsrc: "/result_page.png"},
+    { name: "Home Page", imgsrc: "/home_page.png" },
+    { name: "Recommendation Page", imgsrc: "/recommend_page.png" },
+    { name: "History Page", imgsrc: "/ann_page.png" },
+    { name: "Results", imgsrc: "/result_page.png" },
   ]
 
   return (
@@ -70,7 +70,7 @@ function Report() {
         <div className="p-10">
           <h1 className="text-4xl font-bold mb-3">Movie Recommendation Engine</h1>
           <p className="text-lg opacity-90">Personalized suggestions using machine learning models</p>
-          
+
           <div className="flex flex-wrap gap-3 mt-6">
             {links.map((link, index) => (
               <a
@@ -93,25 +93,25 @@ function Report() {
           <section>
             <h2 className="text-2xl font-bold mb-5 text-gray-800 pb-2 border-b border-gray-200">Authors</h2>
             <div className='w-full flex justify-center items-center'>
-            <div className="grid max-w-[70%] grid-cols-1 md:grid-cols-3 gap-7 p-3 ">
-              {authors.map((author, index) => (
-                <div key={index} className="flex flex-col rounded-lg items-center text-center">
-                  <div className="w-24 h-24 rounded-lg bg-gray-200 mb-3 overflow-hidden">
-                    <img src={author.imgsrc} alt={author.name} className="w-full h-full object-cover" />
+              <div className="grid max-w-[70%] grid-cols-1 md:grid-cols-3 gap-7 p-3 ">
+                {authors.map((author, index) => (
+                  <div key={index} className="flex flex-col rounded-lg items-center text-center">
+                    <div className="w-24 h-24 rounded-lg bg-gray-200 mb-3 overflow-hidden">
+                      <img src={author.imgsrc} alt={author.name} className="w-full h-full object-cover" />
+                    </div>
+                    <h3 className="font-bold text-lg">{author.name}</h3>
+                    <p className="text-gray-600 text-sm mb-2">{author.role}</p>
+                    <div className="flex gap-3 text-gray-600">
+                      <a href={author.github} target="_blank" rel="noopener noreferrer">
+                        <Github size={18} />
+                      </a>
+                      <a href={author.linkedin} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink size={18} />
+                      </a>
+                    </div>
                   </div>
-                  <h3 className="font-bold text-lg">{author.name}</h3>
-                  <p className="text-gray-600 text-sm mb-2">{author.role}</p>
-                  <div className="flex gap-3 text-gray-600">
-                    <a href={author.github} target="_blank" rel="noopener noreferrer">
-                      <Github size={18} />
-                    </a>
-                    <a href={author.linkedin} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink size={18} />
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
             </div>
           </section>
 
@@ -119,25 +119,41 @@ function Report() {
           <section>
             <h2 className="text-2xl font-bold mb-4 text-gray-800 pb-2 border-b border-gray-200">Overview</h2>
             <p className="text-gray-700 leading-relaxed">
-              This project is a <strong>Movie Recommendation Engine</strong> that provides personalized suggestions 
-              using six different machine learning algorithms. Each model utilizes structured movie metadata to learn 
+              This project is a <strong>Movie Recommendation Engine</strong> that provides personalized suggestions
+              using six different machine learning algorithms. Each model utilizes structured movie metadata to learn
               user preferences and predict similar content, offering a comprehensive approach to personalized recommendations.
             </p>
-            <a 
-              href="https://recommendation-engine-eight.vercel.app/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://recommendation-engine-eight.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block mt-4 text-blue-600 hover:text-blue-800 font-medium"
             >
               View Live Demo →
             </a>
           </section>
 
+          {/* Demo Video Section */}
+          <section>
+            <h2 className="text-2xl font-bold mb-5 text-gray-800 pb-2 border-b border-gray-200">Demo Video</h2>
+            <div className="w-full flex justify-center items-center py-4">
+              <div className="w-full md:w-4/5 lg:w-3/4 aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/9i2GlXGPWhg"
+                  title="Movie Recommendation Engine Demo"
+                  className="w-full h-full rounded-lg shadow-lg"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          </section>
 
           {/* Workflow */}
           <section>
             <h2 className="text-2xl font-bold mb-5 text-gray-800 pb-2 border-b border-gray-200">Methodology</h2>
-            
+
             <div className="space-y-6">
               <div className="bg-gray-50 p-5 rounded-lg border-l-4 border-gray-500">
                 <h3 className="font-bold text-lg text-gray-800 mb-2">1. Data Preprocessing – Movie Vector Creation</h3>
@@ -184,7 +200,7 @@ function Report() {
           </section>
 
           <div className='w-full flex justify-center items-center'>
-          <ImageSlider data={slider} />
+            <ImageSlider data={slider} />
 
           </div>
 
