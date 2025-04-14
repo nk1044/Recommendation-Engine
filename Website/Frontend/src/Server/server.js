@@ -40,21 +40,30 @@ const GetMoviesData = async (movies) => {
 };
 
 
-const RecommendANN = async ({title, user_history, negative_history}) => {
-    try {
-      const response = await axios.post(`${backendUrl}/recommend-ann`, {
-        "movie_name": title,
-        "user_history": user_history || [],
-        "negative_history": negative_history || []
-      });
-      const result = await GetMoviesData(response.data || []);
-      // console.log("Recommendations:", response.data);
-      return result;
-    } catch (error) {
-      console.error("Error in RecommendKNN:", error);
-      return [];
+const RecommendANN = async ({ title, user_history, negative_history }) => {
+  try {
+    // Limit negative_history to a maximum of 20 random elements
+    let negativeSample = negative_history || [];
+    if (negativeSample.length > 20) {
+      negativeSample = negativeSample
+        .sort(() => 0.5 - Math.random()) // shuffle
+        .slice(0, 20); // take first 20
     }
-  };
+
+    const response = await axios.post(`${backendUrl}/recommend-ann`, {
+      movie_name: title,
+      user_history: user_history || [],
+      negative_history: negativeSample || [],
+    });
+
+    const result = await GetMoviesData(response.data || []);
+    return result;
+  } catch (error) {
+    console.error("Error in RecommendANN:", error);
+    return [];
+  }
+};
+
 
 
 const RecommendKNN = async ({title, model="knn"}) => {
